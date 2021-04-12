@@ -20,5 +20,11 @@ jobs:
         with:
           node-version: "12.x"
       - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - run: npm install -g @angular/cli > /dev/null
+      - run: ng build --prod --output-path=dist
+      - name: Publish generated content to GitHub Pages
+      uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+      with:
+          dir: dist
+          branch: gh-pages
+          token: ${{ secrets.ACCESS_TOKEN }}
